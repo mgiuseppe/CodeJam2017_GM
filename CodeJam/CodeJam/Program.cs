@@ -9,6 +9,8 @@ namespace CodeJam
 {
     class Program
     {
+        //dalle 10.15 alle 12.00 ho capito il problema, trovato la soluzione, implementato la soluzione.
+
         static void Main(string[] args)
         {
             Solve(@"C:\Users\Giuseppe\GitHub\MyGitRepository\CodeJam\CodeJam\B-small-practice.in", @"C:\Users\Giuseppe\GitHub\MyGitRepository\CodeJam\CodeJam\OutputSmall");
