@@ -20,7 +20,7 @@ namespace BathroomStalls
             //in questo modo evito di fare mille calcoli per ogni cliente (1 macro calcolo per ogni posto libero)
 
             //dalle 13 alle 13.40 ho pensato al problema e alla soluzione - poi sono andato a mangiare
-            //dalle 16.10 ho iniziato a implementare
+            //dalle 16.10 ho iniziato a implementare alle 16.51 era finita l'implementazione però con questa riesco a fare solo il C-small-1 poi è troppo lenta.
 
             Solve(@"C:\Users\Giuseppe\GitHub\CodeJam2017_GM\BathroomStalls\BathroomStalls\C-small-practice-1.in", @"C:\Users\Giuseppe\GitHub\CodeJam2017_GM\BathroomStalls\BathroomStalls\Output-Small-1");
             Solve(@"C:\Users\Giuseppe\GitHub\CodeJam2017_GM\BathroomStalls\BathroomStalls\C-small-practice-2.in", @"C:\Users\Giuseppe\GitHub\CodeJam2017_GM\BathroomStalls\BathroomStalls\Output-Small-2");
@@ -47,8 +47,8 @@ namespace BathroomStalls
             var nStalls = int.Parse(tokens[0]);
             var nUsers = int.Parse(tokens[1]);
 
-            SortedList<int, string> partitions = new SortedList<int, string>(Comparer<int>.Create((x,y) => x - y == 0 ? 1 : x - y)) { { nStalls, "partition" } }; //lista ordinata in maniera ascendente (perchè dietro le sorted list ci sono array e non linked list) e fare remove 0 è costoso
-            
+            SortedList<int, string> partitions = new SortedList<int, string>(Comparer<int>.Create((x, y) => x - y == 0 ? 1 : x - y)) { { nStalls, "partition" } }; //lista ordinata in maniera ascendente (perchè dietro le sorted list ci sono array e non linked list) e fare remove 0 è costoso
+
             int Ls = -1;
             int Rs = -1;
 
@@ -56,7 +56,7 @@ namespace BathroomStalls
             for (int i = 0; i < nUsers; i++)
             {
                 //seleziono la partizione con più bagni liberi
-                var lastIndex = partitions.Count() -1;
+                var lastIndex = partitions.Count() - 1;
                 var startPartition = partitions.ElementAt(lastIndex).Key;
 
                 if (startPartition == 0)
@@ -74,7 +74,42 @@ namespace BathroomStalls
                 partitions.Add(rightPartition, "rightPartition");
             }
 
-            return $" {Math.Max(Ls,Rs)} {Math.Min(Ls, Rs)}";
+            return $" {Math.Max(Ls, Rs)} {Math.Min(Ls, Rs)}";
         }
+
+        /*
+        private static string SolveRow2(string input)
+        {
+            //lvl 0 -> 1 -> 2
+            //#nodi lvl x if x = 0 then 1 else 2 ^ x
+            //#nodi fino a lvl x if x = 0 then 1 else 2 ^ x + #nodi(lvl - 1)
+
+            //utenti per riempire un lvl = 
+            //utente per riempire 
+            var tokens = input.Split(' ');
+            var nStalls = int.Parse(tokens[0]);
+            var nUsers = int.Parse(tokens[1]);
+
+            var livello = ScopriLivello(nUsers);
+            //qui devo determinare le partizioni presenti a un dato livello e vedere quante di queste sono occupate
+
+            return null;
+        }
+
+        private static int ScopriLivello(int nUsers)
+        {
+            var lvl = 1;
+            var nNodi = 2;
+
+            while (nUsers > nNodi)
+            {
+                nNodi += 2^lvl;
+                lvl++;
+            }
+
+            return lvl;
+        }
+        */
+
     }
 }
