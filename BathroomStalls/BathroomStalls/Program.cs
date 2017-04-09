@@ -47,28 +47,29 @@ namespace BathroomStalls
             var nStalls = int.Parse(tokens[0]);
             var nUsers = int.Parse(tokens[1]);
 
-            SortedList<int, string> partitions = new SortedList<int, string>(Comparer<int>.Create((x,y) => y - x == 0 ? 1 : y - x)) { { nStalls, "partition" } }; //lista ordinata in maniera discendente
-
+            SortedList<int, string> partitions = new SortedList<int, string>(Comparer<int>.Create((x,y) => x - y == 0 ? 1 : x - y)) { { nStalls, "partition" } }; //lista ordinata in maniera ascendente (perchè dietro le sorted list ci sono array e non linked list) e fare remove 0 è costoso
+            
             int Ls = -1;
             int Rs = -1;
 
-            //n-1 utenti
+            //n utenti
             for (int i = 0; i < nUsers; i++)
             {
-                //è in ordine discendente?
-                var startPartition = partitions.First().Key;
+                //seleziono la partizione con più bagni liberi
+                var lastIndex = partitions.Count() -1;
+                var startPartition = partitions.ElementAt(lastIndex).Key;
 
                 if (startPartition == 0)
                     throw new ApplicationException("è stata scelta una partizione con 0 bagni liberi");
 
-                var chosenStall = startPartition / 2 + startPartition % 2; //ceiling fatto a mano
+                var chosenStall = (int)Math.Ceiling((decimal)startPartition / 2); //ceiling fatto a mano -> startPartition / 2 + startPartition % 2
                 var leftPartition = chosenStall - 1;
                 var rightPartition = startPartition - chosenStall;
 
                 Ls = leftPartition;
                 Rs = rightPartition;
 
-                partitions.RemoveAt(0);
+                partitions.RemoveAt(lastIndex);
                 partitions.Add(leftPartition, "leftPartition");
                 partitions.Add(rightPartition, "rightPartition");
             }
